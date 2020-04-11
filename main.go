@@ -18,5 +18,5 @@ func main() {
 	}
 	clusterCount := 3
 
-	kmeans.Assign(sampleData, clusterCount)
+	kmeans.InitialAssign(sampleData, clusterCount)
 }

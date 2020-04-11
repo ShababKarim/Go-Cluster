@@ -2,16 +2,22 @@ package kmeans
 
 import (
 	"math/rand"
-
-	"github.com/ShababKarim/go-cluster/kmeans/util"
 )
 
-// Assign randomly chooses first elem of each cluster
-func Assign(obs [][]int, count int) [][]int{
-	util.ObsPlusCluster(obs)
+// InitialAssign randomly chooses first elem of each cluster
+func InitialAssign(rawObs [][]int, count int) (map[int][][]int, [][]int){
+	obs := make([][]int, len(rawObs))
+	copy(obs, rawObs)
+	clusters := make(map[int][][]int)
 
 	for i := 0; i < count; i++ {
-		obs[rand.Intn(len(obs))][2] = rand.Intn(count) + 1
+		// select obs
+		index := rand.Intn(len(obs))
+		// create a list at cluster
+		clusterObs := append(make([][]int, 0), obs[index])
+		clusters[i] = clusterObs
+		// remove from obs slice
+		obs = append(obs[0:index], obs[index+1:]...)
 	}
-	return obs
+	return clusters, obs
 }

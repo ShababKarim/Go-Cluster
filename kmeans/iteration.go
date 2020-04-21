@@ -39,15 +39,15 @@ func CentroidList(clusters map[int][][]int, numFeatures int) ([][]int, error){
 // corresponding index in clusterMap
 func NearestCentroid(centroids [][]int, obs []int, numFeatures int) (int, error){
 	closestIndex := -1
-	closestDistance := int(^uint(0) >> 1)
+	closestDistance := math.MaxFloat64
 	var err error
 
 	for i := 0; i < len(centroids); i++ {
-		distance := 0
+		distance := 0.0
 		for p := 0; p < numFeatures; p++ {
-			distance += math.Pow(math.Abs(centroids[i][p] - obs[p]), 2)
+			distance += math.Pow(math.Abs(float64(centroids[i][p]) - float64(obs[p])), 2)
 		}
-		distance = int(math.Sqrt(distance))
+		distance = math.Sqrt(distance)
 
 		if distance < closestDistance {
 			closestDistance = distance

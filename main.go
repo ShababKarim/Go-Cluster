@@ -1,9 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
+	"os"
 
 	"github.com/ShababKarim/go-cluster/kmeans"
+	"github.com/ShababKarim/go-cluster/kmeans/update"
 )
 
 func main() {
@@ -18,5 +21,15 @@ func main() {
 	}
 	clusterCount := 3
 
-	kmeans.InitialAssign(sampleData, clusterCount)
+	clusters, err := kmeans.InitialAssign(sampleData, clusterCount)
+	if err != nil {
+		fmt.Println("Error: ", err.Error())
+        os.Exit(2)
+	}
+	cl, err := update.Update(clusters, 2)
+	if err != nil {
+		fmt.Println("Error: ", err.Error())
+        os.Exit(2)
+	}
+	fmt.Print(cl)
 }

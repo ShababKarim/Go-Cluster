@@ -1,4 +1,4 @@
-package kmeans
+package update
 
 import (
 	"errors"

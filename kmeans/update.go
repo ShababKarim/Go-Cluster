@@ -1,4 +1,4 @@
-package update
+package kmeans
 
 // Update iterates until clusters stop changing
 func Update(clusters map[int][][]int, numFeatures int) (map[int][][]int, error){

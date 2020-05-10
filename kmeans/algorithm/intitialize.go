@@ -1,4 +1,4 @@
-package kmeans
+package algorithm
 
 import (
 	"errors"
@@ -7,12 +7,11 @@ import (
 
 // InitialAssign randomly chooses first elem of each cluster
 func InitialAssign(obs [][]int, count int) (map[int][][]int, error){
-	var err error
 
 	if len(obs) == 0 {
-		err = errors.New("No observations")
+		return nil, errors.New("No observations")
 	} else if len(obs) < count || count < 1 {
-		err = errors.New("Invalid cluster number")
+		return nil, errors.New("Invalid cluster number")
 	}
 	
 	clusters := make(map[int][][]int)
@@ -27,5 +26,15 @@ func InitialAssign(obs [][]int, count int) (map[int][][]int, error){
 			clusters[k] = append(make([][]int, 0), vector)
 		}
 	}
-	return clusters, err
+	return clusters, nil
+}
+
+// NumFeatures returns p as count of features
+func NumFeatures(obs [][]int) (int, error) {
+	if len(obs) < 0 {
+		return -1, errors.New("No observations")
+	}
+	p := len(obs[0])
+	
+	return p, nil
 }

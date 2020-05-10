@@ -1,4 +1,4 @@
-package kmeans
+package algorithm
 
 import (
 	"errors"
@@ -7,13 +7,12 @@ import (
 
 // CentroidList computes centroids of each cluster
 func CentroidList(clusters map[int][][]int, numFeatures int) ([][]int, error){
-	var err error
 	centroids := make([][]int, len(clusters))
 	
 	if len(clusters) < 1 {
-		err = errors.New("Less than 1 cluster(s)")
+		return nil, errors.New("Less than 1 cluster(s)")
 	} else if numFeatures < 1 {
-		err = errors.New("Not enough features")
+		return nil, errors.New("Not enough features")
 	}
 
 	for clusterNum, clusterObs := range clusters {
@@ -32,7 +31,7 @@ func CentroidList(clusters map[int][][]int, numFeatures int) ([][]int, error){
 		centroids[clusterNum] = averageVector
 	}
 
-	return centroids, err
+	return centroids, nil
 }
 
 // NearestCentroid finds closest centroid, returns
@@ -40,7 +39,6 @@ func CentroidList(clusters map[int][][]int, numFeatures int) ([][]int, error){
 func NearestCentroid(centroids [][]int, obs []int, numFeatures int) (int, error){
 	closestIndex := -1
 	closestDistance := math.MaxFloat64
-	var err error
 
 	for i := 0; i < len(centroids); i++ {
 		distance := 0.0
@@ -56,8 +54,8 @@ func NearestCentroid(centroids [][]int, obs []int, numFeatures int) (int, error)
 	}
 	
 	if closestIndex == -1 {
-		err = errors.New("No nearest centroid")
+		return -1, errors.New("No nearest centroid")
 	}
 
-	return closestIndex, err
+	return closestIndex, nil
 }

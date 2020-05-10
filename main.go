@@ -24,15 +24,11 @@ func main() {
 	}
 	clusterCount := 3
 
-	clusters, err := kmeans.InitialAssign(sampleData, clusterCount)
+	cmap, err := kmeans.New(sampleData, clusterCount)
 	if err != nil {
 		fmt.Println("Error: ", err.Error())
         os.Exit(2)
 	}
-	cl, err := kmeans.Update(clusters, 2)
-	if err != nil {
-		fmt.Println("Error: ", err.Error())
-        os.Exit(2)
-	}
-	fmt.Println(cl)
+
+	fmt.Println(cmap.Obs)
 }

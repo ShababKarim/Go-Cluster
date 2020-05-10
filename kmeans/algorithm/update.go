@@ -1,4 +1,4 @@
-package kmeans
+package algorithm
 
 // Update iterates until clusters stop changing
 func Update(clusters map[int][][]int, numFeatures int) (map[int][][]int, error){
@@ -10,14 +10,18 @@ func Update(clusters map[int][][]int, numFeatures int) (map[int][][]int, error){
 		newClusters := make(map[int][][]int)
 		// compute centroid of each cluster
 		centroids, err := CentroidList(clusters, numFeatures)
-		e = err
+		if err != nil {
+			return nil, err
+		}
 		// each obs - identify nearest cluster
 		for clusterNum, clusterObs := range clusters {
 			for _, obs := range clusterObs {
 
 				// assign observation to nearest cluster
 				nearestClusterNum, err := NearestCentroid(centroids, obs, numFeatures)
-				e = err
+				if err != nil {
+					return nil, err
+				}
 
 				// if diff assignment than before, flag as true
 				if nearestClusterNum != clusterNum {

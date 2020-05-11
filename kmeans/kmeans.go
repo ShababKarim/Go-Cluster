@@ -3,6 +3,7 @@ package kmeans
 import (
 	"github.com/ShababKarim/go-cluster/kmeans/algorithm"
 	l "github.com/ShababKarim/go-cluster/lib"
+	v "github.com/ShababKarim/go-cluster/validation"
 )
 
 // New is simply a wrapper for the cluster data
@@ -24,6 +25,12 @@ func New(obs [][]int, clusterCount int) (*l.ClusterMap, error) {
 		return nil, err
 	}
 	cmap.Obs = cl
-
+	
+	wss, err := v.TotalWss(cmap.Obs, numFeatures)
+	if err != nil {
+		return nil, err
+	}
+	cmap.Wss = wss
+	
 	return cmap, nil
 }

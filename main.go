@@ -31,4 +31,5 @@ func main() {
 	}
 
 	fmt.Println(cmap.Obs)
+	fmt.Println("Within cluster variation", cmap.Wss)
 }

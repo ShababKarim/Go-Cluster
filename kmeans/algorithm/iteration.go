@@ -40,6 +40,10 @@ func NearestCentroid(centroids [][]int, obs []int, numFeatures int) (int, error)
 	closestIndex := -1
 	closestDistance := math.MaxFloat64
 
+	if len(obs) != numFeatures {
+		return -1, errors.New("Invalid observation")
+	}
+
 	for i := 0; i < len(centroids); i++ {
 		distance := 0.0
 		for p := 0; p < numFeatures; p++ {

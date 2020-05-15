@@ -1,6 +1,9 @@
 package algorithm
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestUpdate(t *testing.T) {
 	t.Run("Empty cluster map", testEmptyMap())
@@ -60,14 +63,8 @@ func testCorrectUpdate() func(t * testing.T) {
 			t.Error("Expected error to be nil")
 		}
 
-		for i := 0; i < len(cmap); i++ {
-			for j := 0; j < len(cmap[i]); j++ {
-				if i == 0 && cmap[i][j][0] > 1 {
-					t.Error("Assigned to wrong cluster")
-				} else if i == 1 && cmap[i][j][0] < 4 {
-					t.Error("Assigned to wrong cluster")
-				}
-			}
+		if !reflect.DeepEqual(cmap, clusterMap) {
+			t.Error("Incorrectly clustered")
 		}
 	}
 }

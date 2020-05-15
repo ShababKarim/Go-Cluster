@@ -45,8 +45,10 @@ func testCorrect() func(t *testing.T) {
 
 		cmap, err := InitialAssign(obs, 1)
 
-		if err != nil || cmap == nil {
-			t.Error("Expected err to be nil")
+		if err != nil {
+			t.Fatalf("Err: %s", err)
+		} else if cmap == nil {
+			t.Error("Expected cmap to not be nil")
 		}
 
 		if len(cmap[0]) != len(obs) {

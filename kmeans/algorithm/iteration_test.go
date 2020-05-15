@@ -63,7 +63,7 @@ func TestCentroidList(t *testing.T) {
 
 func testIncorrectCentroid() func(t *testing.T) {
 	// not handling this case
-	// err should not be nil
+	// TODO: err should not be nil
 	clusterMap := make(map[int][][]int)
 	clusterMap[0] = make([][]int, 1)
 	clusterMap[1] = make([][]int, 1)

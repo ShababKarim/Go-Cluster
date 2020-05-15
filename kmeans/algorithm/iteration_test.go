@@ -5,52 +5,54 @@ import (
 )
 
 func TestNearestCentroid(t *testing.T) {
-	t.Run("empty centroid list", testEmptyList())
-	t.Run("empty observation", testEmptyObservation())
-	t.Run("perfect match", testPerfectMatch())
-}
 
-func testEmptyList() func(t *testing.T) {
-	centroidList := make([][]int, 0)
-	obs := []int{1, 2, 3}
-	numFeatures := 3
-	return func(t *testing.T) {
-		_, err := NearestCentroid(centroidList, obs, numFeatures)
-		if err == nil {
-			t.Error("Expected error to not be nil")
-		}
+	cases := []struct{ 
+		name string 
+		centroidList [][]int
+		obs []int
+		numFeatures int
+		expected int 
+		}{
+		{ 
+			name: "empty centroid list", 
+			centroidList: nil, 
+			obs: []int{1,2,3}, 
+			numFeatures: 3, 
+			expected: -1,
+		},
+		{ 
+			name: "empty observation",
+			centroidList: [][]int{{3,1}, {4,5}}, 
+			obs: nil,
+			numFeatures: 2,
+			expected: -1,
+		},
+		{ 
+			name: "perfect match",
+			centroidList: [][]int{{3,1}, {4,5}}, 
+			obs: []int{4,5}, 
+			numFeatures: 2, 
+			expected: 1,
+		},
 	}
-}
 
-func testEmptyObservation() func(t *testing.T) {
-	centroidList := make([][]int, 2)
-	centroidList[0] = []int{ 3, 1 }
-	centroidList[1] = []int{ 4, 5 }
-	obs := make([]int, 0)
-	numFeatures := 2
-	return func(t *testing.T) {
-		_, err := NearestCentroid(centroidList, obs, numFeatures)
-		if err == nil {
-			t.Error("Expected error to not be nil")
-		}
-	}
-}
-
-func testPerfectMatch() func(t *testing.T) {
-	centroidList := make([][]int, 2)
-	centroidList[0] = []int{ 3, 1 }
-	centroidList[1] = []int{ 4, 5 }
-	obs := []int{ 4, 5 }
-	numFeatures := 2
-	return func(t *testing.T) {
-		index, err := NearestCentroid(centroidList, obs, numFeatures)
-		if err != nil {
-			t.Error("Expected error be nil")
-		}
-
-		if index != 1 {
-			t.Error("Returned wrong index")
-		}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got, err := NearestCentroid(
+				tc.centroidList,
+				tc.obs,
+				tc.numFeatures)
+			
+			if tc.expected == -1 && err == nil{
+				t.Error("Expected error to not be nil")
+			} else if tc.expected != -1 {
+				if err != nil {
+					t.Fatalf("Err: %s", err)
+				} else if tc.expected != got {
+					t.Fatalf("Expected %d, got %d", tc.expected, got)
+				}
+			}
+		})
 	}
 }
 

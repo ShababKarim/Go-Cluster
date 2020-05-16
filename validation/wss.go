@@ -38,7 +38,7 @@ func wss(singleCluster [][]int, numFeatures int) float64 {
 			for p := 0; p < numFeatures; p++ {
 				sum += math.Pow(math.Abs(float64(singleCluster[i][p]) - float64(singleCluster[j][p])), 2)
 			}
-			totalSum += math.Sqrt(sum)
+			totalSum += sum
 		}
 	}
 	return totalSum / float64(len(singleCluster))
